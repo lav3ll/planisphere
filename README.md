@@ -10,9 +10,9 @@ Planisphere serves as your digital organizer, offering an intuitive and dynamic 
 
 No installation needed
 
-[Click here to see live copy of the site](https://github.com/lav3ll/planisphere.io)
+[Click here to see live copy of the site](https://lav3ll.github.io/planisphere)
 
-[Link to quiz wiz js repo](https://github.com/lav3ll/planisphere)
+[Link to planisphere](https://github.com/lav3ll/planisphere)
 
 ## Usage
 
