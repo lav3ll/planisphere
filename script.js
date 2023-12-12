@@ -1,35 +1,33 @@
 $(document).ready(() => {
-  // Bring in variables that I plan to use
-
   const today = dayjs("2023-12-12", "YYYY-MM-DD");
-  const currentHour = 11;
-  console.log(today.format("dddd, Do MMMM")); // Checking the formatted date in the console
+  // Get current hour in AM/PM format
+  const currentHour = dayjs().format("H");
+  // Convert current hour to number
+  const formatCurHour = parseInt(currentHour);
+  console.log(today.format("dddd, Do MMMM"));
 
   const currentDayEl = $("#currentDay");
-  currentDayEl.text(today.format("dddd, Do MMMM")); // Set the formatted date as the text content
+  currentDayEl.text(today.format("dddd, Do MMMM"));
 
-  // Create an array to hold the opening hours
   const openHours = [];
 
-  // Create an array to hold the opening hours from 9am to 5pm in AM/PM format
   for (let i = 9; i <= 17; i++) {
-    openHours.push(`${i < 12 ? i : i - 12}${i < 12 ? "am" : "pm"}`);
+    openHours.push(dayjs().hour(i).format("H")); // Generate hours in 24-hour format
   }
 
-  // Generate time block elements for each hour using the openHours array
   openHours.forEach((hour) => {
-    const compareHours = parseInt(hour); // Extract hour as an integer
-    console.log(compareHours);
-    console.log(currentHour);
+    const hourNumber = parseInt(hour); // Extract the hour as a number
 
     const timeBlockEl = $("<div>").addClass("time-block row");
     const timeEl = $("<div>").addClass("col-1 hour").text(hour);
     timeBlockEl.append(timeEl);
 
+    console.log(hourNumber);
+
     const descriptionEl = $("<textarea>").addClass("col-9 description");
-    if (compareHours < currentHour) {
+    if (hourNumber < formatCurHour) {
       descriptionEl.addClass("past");
-    } else if (compareHours > currentHour) {
+    } else if (hourNumber > formatCurHour) {
       descriptionEl.addClass("future");
     } else {
       descriptionEl.addClass("present");
