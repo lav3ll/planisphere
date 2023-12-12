@@ -2,6 +2,7 @@ $(document).ready(() => {
   // Bring in variables that I plan to use
 
   const today = dayjs("2023-12-12", "YYYY-MM-DD");
+  const currentHour = 11;
   console.log(today.format("dddd, Do MMMM")); // Checking the formatted date in the console
 
   const currentDayEl = $("#currentDay");
@@ -17,22 +18,27 @@ $(document).ready(() => {
 
   // Generate time block elements for each hour using the openHours array
   openHours.forEach((hour) => {
-    // Create a div element representing a time block and assign Bootstrap row class
+    const compareHours = parseInt(hour); // Extract hour as an integer
+    console.log(compareHours);
+    console.log(currentHour);
+
     const timeBlockEl = $("<div>").addClass("time-block row");
-
-    // Create a div for displaying the hour, use Bootstrap col-1 class for sizing
     const timeEl = $("<div>").addClass("col-1 hour").text(hour);
-    timeBlockEl.append(timeEl); // Append the hour element to the time block
+    timeBlockEl.append(timeEl);
 
-    // Create a textarea for adding descriptions, use Bootstrap col-9 class for sizing
     const descriptionEl = $("<textarea>").addClass("col-9 description");
-    timeBlockEl.append(descriptionEl); // Append the description textarea to the time block
+    if (compareHours < currentHour) {
+      descriptionEl.addClass("past");
+    } else if (compareHours > currentHour) {
+      descriptionEl.addClass("future");
+    } else {
+      descriptionEl.addClass("present");
+    }
+    timeBlockEl.append(descriptionEl);
 
-    // Create a button for saving, use Bootstrap col-2 class for sizing
     const saveBtn = $("<button>").addClass("col-2 saveBtn").text("Save");
-    timeBlockEl.append(saveBtn); // Append the save button to the time block
+    timeBlockEl.append(saveBtn);
 
-    // Append the completed time block element to the container
     $(".container").append(timeBlockEl);
   });
 });
