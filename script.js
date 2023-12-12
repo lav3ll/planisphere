@@ -1,8 +1,6 @@
 $(document).ready(() => {
   const today = dayjs("2023-12-12", "YYYY-MM-DD");
-  // Get current hour in AM/PM format
   const currentHour = dayjs().format("H");
-  // Convert current hour to number
   const formatCurHour = parseInt(currentHour);
   console.log(today.format("dddd, Do MMMM"));
 
@@ -12,17 +10,15 @@ $(document).ready(() => {
   const openHours = [];
 
   for (let i = 9; i <= 17; i++) {
-    openHours.push(dayjs().hour(i).format("H")); // Generate hours in 24-hour format
+    openHours.push(dayjs().hour(i).format("H"));
   }
 
   openHours.forEach((hour) => {
-    const hourNumber = parseInt(hour); // Extract the hour as a number
+    const hourNumber = parseInt(hour);
 
     const timeBlockEl = $("<div>").addClass("time-block row");
     const timeEl = $("<div>").addClass("col-1 hour").text(hour);
     timeBlockEl.append(timeEl);
-
-    console.log(hourNumber);
 
     const descriptionEl = $("<textarea>").addClass("col-9 description");
     if (hourNumber < formatCurHour) {
@@ -32,9 +28,17 @@ $(document).ready(() => {
     } else {
       descriptionEl.addClass("present");
     }
+    const savedDescription = localStorage.getItem(hour); // Retrieve text from local storage
+    if (savedDescription) {
+      descriptionEl.val(savedDescription); // Set the textarea value if there's saved text
+    }
     timeBlockEl.append(descriptionEl);
 
     const saveBtn = $("<button>").addClass("col-2 saveBtn").text("Save");
+    saveBtn.on("click", () => {
+      const descriptionText = descriptionEl.val();
+      localStorage.setItem(hour, descriptionText);
+    });
     timeBlockEl.append(saveBtn);
 
     $(".container").append(timeBlockEl);
